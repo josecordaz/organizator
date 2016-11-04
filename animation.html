@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Organizator</title>
+	<meta charset="utf-8">
+	<script src="lib/d3.min.js"></script>
+	<style>
+	path:hover {
+		stroke: yellow;
+	}
+	</style>
+</head>
+<body>
+
+<svg width="100%" height="900" xmlns="http://www.w3.org/2000/svg">
+
+<!--rect x="0" y="0" width="100" height="1" style="fill:rgb(15,30,25);stroke-width:3;stroke:rgb(0,0,0)">
+  <animate attributeType="CSS" attributeName="opacity" 
+           from="0" to="1" dur="5s"/>
+</rect-->
+
+<!--rect x="100" y="100" width="1" height="100" style="fill:rgb(15,30,25);stroke-width:3;stroke:rgb(0,0,0)" >
+	<animate attributeName="width"  from="200px"  to="100px" begin="0s" dur="10s" />
+	<animate attributeName="height" from="100px" to="200px"  begin="0s" dur="10s" />
+</rect-->
+
+<path id="tmp" stroke="black" fill="none" stroke-width="5">
+          <animate attributeName="d" values="M 0 100
+                           a 100 100 0 0 0 100 -100;
+
+                           M 0 50
+                           a 50 50 0 0 0 50 -50;" dur="10ms"/>
+</path>
+
+<path fill="none" stroke="blue">
+    <animate 
+             attributeName="d" 
+             dur="1" 
+             repeatCount="indefinite"
+             keyTimes="0;
+                       1"
+             calcMode="spline" 
+             keySplines="0,0,1,1;"
+             values="M 0 100
+                           a 100 100 0 0 0 100 -100;
+
+                     M 0 50
+                           a 50 50 0 0 0 50 -50;"/>
+  </path>
+
+<!--rect x="0" y="0" width="100" height="1" style="fill:rgb(15,30,25);stroke-width:3;stroke:rgb(0,0,0)" >
+	<animate attributeName="x" from="0" to="100"  begin="0s" dur="5s"/>
+	<!--animate attributeName="width"  from="1px"  to="100px" begin="0s" dur="10s" />
+	<animate attributeName="height" from="100px" to="1px"  begin="0s" dur="10s" />
+</rect-->
+
+
+</svg>
+
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

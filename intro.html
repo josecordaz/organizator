@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Organizator</title>
+	<script src="lib/d3.min.js"></script>
+</head>
+<body>
+	<p>This is the first paragraph</p>
+	<br>
+	<p>This is a second paragraph</p>
+	<br>
+	<p>This is the third one</p>
+	<br>
+	<p>This is the forth one</p>
+	<br>
+	<p>This is the fifth one</p>
+
+<script type="text/javascript">
+	d3.select("body").transition()
+    .style("background-color", "black");
+
+	/*d3.selectAll("p").style("color", function() {
+	  return "hsl(" + Math.random() * 360 + ",100%,50%)";
+	});*/
+
+	d3.selectAll("p").style("color", function(d, i) {
+	  return i % 2 ? "#fff" : "#eee";
+	});
+
+	/*d3.selectAll("p")
+  	.data([4, 8, 15, 16, 23, 42])
+    .style("font-size", function(d) { return d + "px"; });*/
+
+    d3.select("body")
+  	.selectAll("p")
+  	.data([4, 8, 15, 16, 23, 42])
+  	.enter().append("p")
+    .text(function(d) { return "I’m number " + d + "!"; });
+
+    var p = d3.select("body")
+  	.selectAll("p")
+  	.data([4, 8, 15, 16, 23, 42])
+    .text(function(d) { return d; });
+</script>
+</body>
+</html>

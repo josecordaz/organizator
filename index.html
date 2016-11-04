@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Organizator</title>
+	<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+	<style type="text/css">
+		body {
+			font-family: 'Indie Flower', cursive;
+		}
+	</style>
+	<script src="lib/d3.min.js"></script>
+</head>
+<body>
+<svg width="100%" height="900" xmlns="http://www.w3.org/2000/svg">
+  <!--path id="tmp" d="M 0 100
+           a 100 100 0 0 0 100 -100" stroke="black" fill="none" stroke-width="1"/>
+</svg>
+<!--svg width="100%" height="900" xmlns="http://www.w3.org/2000/svg">
+	  <!--path id="tmp" d="M 0 100
+           a 100 100 0 0 0 100 -100" stroke="black" fill="none" stroke-width="1"/>
+      <!--text x="0" y="20" font-size="12">
+		Get PhD in Compu
+  	  </text>
+  	  <text x="0" y="90" font-size="12">
+		ter Science
+  	  </text-->
+</svg>
+
+<script type="text/javascript">
+	var text = "Erta es una prueba de texto que aumenta un poco solo un poco mas y se ve muy bien hasta ahora estoy muy";
+
+	var minLen = 5.7;
+	var mayLen = 6.3;
+	var blankSpaceLen = 5.1;
+	var shortLen = 0.5;
+	var tValue = 3.5;
+	var iValue = 1;
+	var lValue = 0.6;
+	var rValue = 3.4;
+
+	var indRows = [3,4,2,5,1,6,0,7];
+
+	var rowsCoors = [20,30,40,50,60,70,80,90];
+
+	var rows = [97.97,95.34,91.65,86.60,80,71.41,60,43.58];
+
+	var pieces = text.split('').map(val=>{
+		if(val == ' '){
+			return blankSpaceLen;
+		} else if(val.charCodeAt(0)==116){ // t
+			return tValue+shortLen;
+		} else if(val.charCodeAt(0)==105){ // i
+			return iValue+shortLen;
+		} else if(val.charCodeAt(0)==108){ // l
+			return lValue+shortLen;
+		} else if(val.charCodeAt(0)==114){ // r
+			return rValue+shortLen;
+		} else if (val.charCodeAt(0)>=97 && val.charCodeAt(0)<=122){ //Range for lowercase
+			return  minLen + shortLen;
+		} else if (val.charCodeAt(0)>=65 && val.charCodeAt(0)<=90){//Range for uppercase
+			return mayLen + shortLen;
+		} else {
+			return "-1";
+		}
+	});
+
+	var textLen = pieces.reduce((pv,cv)=>{
+		pv += cv;
+		return pv;
+	},0);
+
+	var tmpArr = [];
+
+	for(var i = 1; i < indRows.length; i++){
+		tmpArr = indRows.slice(0,i).sort();
+		var tmpArrMap = tmpArr.map(val=>{
+			return rows[val];
+		});
+
+		var subTotal = tmpArrMap.reduce((pv,cv)=>{
+			pv += cv;
+			return pv;
+		},0);
+
+		if(textLen<subTotal){
+			break;
+		}
+	}
+
+	console.log(tmpArr);
+
+	var ind = 0;
+	var oldInd = 0;
+	var splitText = []; // ["first","second"]
+
+	tmpArr.forEach(val=>{
+		var sizeRow = rows[val];
+		var tmp = "";
+		var datosTmp = [];
+		for(var subtotal = 0 ; ind < pieces.length; ind++){
+			datosTmp.push(subtotal);
+			subtotal += pieces[ind];
+			tmp += text.split("")[ind]+"("+pieces[ind]+")-";
+			if(subtotal>sizeRow){
+				splitText.push(text.substr(oldInd,(ind+1)-oldInd));
+				console.log(text.substr(oldInd,(ind+1)-oldInd));
+				console.log(tmp);
+				tmp = "";
+				//console.log(pieces.slice(oldInd,(ind+1)).join("-"));
+				console.log(subtotal);
+				console.log(sizeRow);
+				oldInd = ind+1;
+				break;
+			}
+		}
+		/*datosTmp.push(subtotal);
+					d3.select("svg")
+		    	.selectAll("line")
+		    	.data(datosTmp)
+		    	.enter().append("line")
+		    	.attr("x1",function(d){return d;})
+		    	.attr("y1",30)
+		    	.attr("x2",function(d){return d;})
+		    	.attr("y2",40)
+		    	.attr("stroke","green")
+		    	.attr("stroke-width","0.1");*/
+		//break;
+	});
+	splitText.push(text.substr(oldInd,ind));
+
+	var data = splitText.map(val=>{
+		return {text:val,x:0,y:rowsCoors[tmpArr[splitText.indexOf(val)]]};
+	});
+
+	var newCoors = tmpArr.map(val=>{
+		return rowsCoors[val];
+	});
+
+    d3.select("svg")
+    	.selectAll("path")
+    	.data([100])
+    	.enter().append("path")
+    	.attr("d","M 0 100 a 100 100 0 0 0 100 -100")
+    	.attr("stroke","blue")
+    	.attr("fill","none")
+    	.attr("stroke-width","1");
+
+    d3.select("svg")
+  		.selectAll("text")
+  		.data(data)
+  		.enter().append("text")
+  		.attr("font-size",12)
+  		.attr("x", 0)
+  		.attr("y",function(d){ return d.y })
+    	.text(function(d) { return d.text; });
+
+
+
+</script>
+</body>
+</html>
